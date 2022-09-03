@@ -29,6 +29,9 @@ local sandbox = {
 
 }
 
+-- compatible with old lua versions
+table.unpack = table.unpack or unpack
+
 -- quotas don't work in LuaJIT since debug.sethook works differently there
 local quota_supported = type(_G.jit) == "nil"
 sandbox.quota_supported = quota_supported
@@ -165,7 +168,7 @@ function sandbox.protect(code, options)
 
     string.rep = nil -- luacheck: no global
 
-    local t = table.pack(pcall(f, ...))
+    local t = {pcall(f, ...)}
 
     cleanup()
 
