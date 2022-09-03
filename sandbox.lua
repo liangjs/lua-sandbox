@@ -83,7 +83,9 @@ table.insert table.maxn table.remove table.sort
   local module, method = id:match('([^%.]+)%.([^%.]+)')
   if module then
     BASE_ENV[module]         = BASE_ENV[module] or {}
-    BASE_ENV[module][method] = _G[module][method]
+    if _G[module] ~= nil then
+      BASE_ENV[module][method] = _G[module][method]
+    end
   else
     BASE_ENV[id] = _G[id]
   end
